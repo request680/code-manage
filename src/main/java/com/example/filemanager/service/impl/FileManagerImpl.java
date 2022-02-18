@@ -16,6 +16,19 @@ import java.util.*;
  * @description 文件管理
  * @date 2022/2/13 10:37
  */
+
+/**
+ * 需求:
+ *      给定一个文本文件in.txt，文件可由不在引号内的换行符划分成多行，
+ *      请将文件A中的内容按以下规则处理后输出至文件out.txt：
+ *      A.每行行内字符要反转输出，
+ *      B.有多行的话，行间次序要反转输出，
+ *      C.引号内的内容视为整体，内部不需变化次序
+ *
+ * 理解的预期效果（ \r\n 为换行符）：
+ *      原文本内容:  a"ss"df"gh" \r\n q"wer""ty"rty \r\n "nas"df"gh"jgd
+ *      新文本内容： dgj"gh"fd"nas" \r\n ytr"ty""wer"qn \r\n "gh"fd"ss"a
+ */
 @Service
 @Slf4j
 public class FileManagerImpl implements FileManagerService {
@@ -23,6 +36,12 @@ public class FileManagerImpl implements FileManagerService {
     final String INPUT_FILE_PATH = "D:\\file\\input\\";        //输入文件路径
     final String OUTPUT_FILE_PATH = "D:\\file\\output\\";       //输出文件路径
 
+    /**
+     * 优化思路:
+     * 将行内容转化为char字符压入栈中
+     * 利用栈先进后出的特性反转
+     * 引号数量为奇数抛异常，否则按照规则进行反转
+     */
     public String fileReverse() throws IOException {
         String inTxt = "in.txt";
         File inFile = new File(INPUT_FILE_PATH.concat(inTxt));
